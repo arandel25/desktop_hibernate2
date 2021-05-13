@@ -35,6 +35,8 @@ public class Principal extends javax.swing.JFrame {
         cadastro = new javax.swing.JMenu();
         novoChamado = new javax.swing.JMenuItem();
         pesquisaChamado = new javax.swing.JMenuItem();
+        novoUsuario = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         relatorios = new javax.swing.JMenu();
         sair = new javax.swing.JMenu();
 
@@ -105,6 +107,17 @@ public class Principal extends javax.swing.JFrame {
         });
         cadastro.add(pesquisaChamado);
 
+        novoUsuario.setText("Novo Usuário");
+        novoUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                novoUsuarioActionPerformed(evt);
+            }
+        });
+        cadastro.add(novoUsuario);
+
+        jMenuItem2.setText("Pesquisar Usuário");
+        cadastro.add(jMenuItem2);
+
         jMenuBar1.add(cadastro);
 
         relatorios.setMnemonic('r');
@@ -168,6 +181,10 @@ public class Principal extends javax.swing.JFrame {
         new CadastroChamado().setVisible(true);
     }//GEN-LAST:event_btNovoChamadoActionPerformed
 
+    private void novoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoUsuarioActionPerformed
+        new CadastroUsuario().setVisible(true);
+    }//GEN-LAST:event_novoUsuarioActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -208,7 +225,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu cadastro;
     private javax.swing.JMenuItem editar;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem novoChamado;
+    private javax.swing.JMenuItem novoUsuario;
     private javax.swing.JMenuItem pesquisaChamado;
     private javax.swing.JMenu relatorios;
     private javax.swing.JMenu sair;

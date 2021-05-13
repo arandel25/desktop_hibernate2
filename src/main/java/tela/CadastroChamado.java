@@ -36,11 +36,7 @@ public class CadastroChamado extends javax.swing.JFrame {
         initComponents();
         chamadoDao = new ChamadoDaoImpl();
         this.chamado = chamado;
-        labelDataCadastro.setText(dateFormat.format(chamado.getCadastro()));
-        tfEquipamento.setText(chamado.getEquipamento());
-        tfDescricao.setText(chamado.getDescricao());
-        btSalvar.setText("Alterar");
-        jLabelTitulo.setText("Alterar Chamado");
+        janelaAlterar();
     }
 
     @SuppressWarnings("unchecked")
@@ -58,6 +54,8 @@ public class CadastroChamado extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tfDescricao = new javax.swing.JTextArea();
         btLimpar = new javax.swing.JButton();
+        jLSituacao1 = new javax.swing.JLabel();
+        jLSituacao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro Chamado");
@@ -77,18 +75,18 @@ public class CadastroChamado extends javax.swing.JFrame {
 
         dataCadastro.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         dataCadastro.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        dataCadastro.setText("Data Cadastro:");
+        dataCadastro.setText("Data Cadastro: ");
 
         labelDataCadastro.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         labelDataCadastro.setText(" ");
 
         equipamento.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         equipamento.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        equipamento.setText("Equipamentro:");
+        equipamento.setText("Equipamentro:*");
 
         descricao.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         descricao.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        descricao.setText("Descrição:");
+        descricao.setText("Descrição:*");
 
         tfEquipamento.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         tfEquipamento.setText(" ");
@@ -107,41 +105,55 @@ public class CadastroChamado extends javax.swing.JFrame {
             }
         });
 
+        jLSituacao1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLSituacao1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLSituacao1.setText("Situação: ");
+
+        jLSituacao.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLSituacao.setText(" ");
+
         javax.swing.GroupLayout painelPrincipalLayout = new javax.swing.GroupLayout(painelPrincipal);
         painelPrincipal.setLayout(painelPrincipalLayout);
         painelPrincipalLayout.setHorizontalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(painelPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(painelPrincipalLayout.createSequentialGroup()
-                        .addComponent(dataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(labelDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelPrincipalLayout.createSequentialGroup()
+                            .addGap(205, 205, 205)
+                            .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(45, 45, 45)
+                            .addComponent(btLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(57, 57, 57))
                         .addGroup(painelPrincipalLayout.createSequentialGroup()
-                            .addComponent(descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(jScrollPane1))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, painelPrincipalLayout.createSequentialGroup()
-                            .addComponent(equipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(painelPrincipalLayout.createSequentialGroup()
+                            .addComponent(equipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(tfEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(tfEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(painelPrincipalLayout.createSequentialGroup()
+                        .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLSituacao1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dataCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(labelDataCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                            .addComponent(jLSituacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(113, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelPrincipalLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(btLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(170, 170, 170))
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(painelPrincipalLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jLabelTitulo)
-                .addGap(45, 45, 45)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLSituacao1)
+                    .addComponent(jLSituacao))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dataCadastro)
                     .addComponent(labelDataCadastro))
@@ -157,7 +169,7 @@ public class CadastroChamado extends javax.swing.JFrame {
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,38 +188,53 @@ public class CadastroChamado extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        session = HibernateUtil.abrirConexao();
         if (validarCampo()) {
-            
-            if (chamado == null) {
-                try {
+            session = HibernateUtil.abrirConexao();
+            String mensagem = "";
+            try {
+                if (chamado == null) {
+                    mensagem = "Salvar";
                     chamado = new Chamado(null, new Date(), tfEquipamento.getText().trim(), tfDescricao.getText().trim());
-                    chamadoDao.salvarOuAlterar(chamado, session);
                     JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
-                    limpar();
-                    chamado = null;
-                } catch (HeadlessException | HibernateException e) {
-                    JOptionPane.showMessageDialog(null, "Erro ao salvar");
-                    System.err.println(e.getMessage());
-                } finally {
-                    session.close();
-                }
-            } else {
-                try {
+                } else {
+                    mensagem = "Alterar";
                     chamado.setDescricao(tfDescricao.getText());
                     chamado.setEquipamento(tfEquipamento.getText());
-                    chamadoDao.salvarOuAlterar(chamado, session);
                     JOptionPane.showMessageDialog(null, "Alterado com sucesso!");
-                    limpar();
-                } catch (HibernateException e) {
-                    JOptionPane.showMessageDialog(null, "Erro ao Alterar");
-                    System.err.println(e.getMessage());
-                } finally {
-                    session.close();
+                    janelaSalvar();
                 }
+                chamadoDao.salvarOuAlterar(chamado, session);
+            } catch (HeadlessException | HibernateException e) {
+                JOptionPane.showMessageDialog(null, "Erro ao " + mensagem);
+                System.err.println(e.getMessage());
+            } finally {
+                chamado = null;
+                session.close();
+                limpar();
             }
         }
     }//GEN-LAST:event_btSalvarActionPerformed
+
+    private void janelaAlterar() {
+        labelDataCadastro.setText(dateFormat.format(chamado.getCadastro()));
+        tfEquipamento.setText(chamado.getEquipamento());
+        tfDescricao.setText(chamado.getDescricao());
+        btSalvar.setText("Alterar");
+        jLabelTitulo.setText("Alterar Chamado");
+        setTitle("Alterar Chamado");
+        jLSituacao.setVisible(true);
+        jLSituacao1.setVisible(true);
+        jLSituacao.setText(chamado.isAtivo() ? "Aberto" : "Encerrado");
+    }
+
+    private void janelaSalvar() {
+        btSalvar.setText("Salvar");
+        jLabelTitulo.setText("Cadastro de Chamado");
+        labelDataCadastro.setText(dateFormat.format(new Date()));
+        setTitle("Cadastro de Chamado");
+        jLSituacao.setVisible(false);
+        jLSituacao1.setVisible(false);
+    }
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
         limpar();
@@ -279,6 +306,8 @@ public class CadastroChamado extends javax.swing.JFrame {
     private javax.swing.JLabel dataCadastro;
     private javax.swing.JLabel descricao;
     private javax.swing.JLabel equipamento;
+    private javax.swing.JLabel jLSituacao;
+    private javax.swing.JLabel jLSituacao1;
     private javax.swing.JLabel jLabelTitulo;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelDataCadastro;

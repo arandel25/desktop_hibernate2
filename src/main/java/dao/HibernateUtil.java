@@ -9,6 +9,8 @@ import entidade.Cartao;
 import entidade.Chamado;
 import entidade.Correntista;
 import entidade.Fornecedor;
+import entidade.Perfil;
+import entidade.Usuario;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -32,7 +34,9 @@ public class HibernateUtil {
             cfg.addAnnotatedClass(Cartao.class);
             cfg.addAnnotatedClass(Correntista.class);
             cfg.addAnnotatedClass(Chamado.class);
-
+            cfg.addAnnotatedClass(Perfil.class);
+            cfg.addAnnotatedClass(Usuario.class);
+            
             cfg.configure("/META-INF/hibernate.cfg.xml");
             StandardServiceRegistryBuilder build = new StandardServiceRegistryBuilder().
                     applySettings(cfg.getProperties());

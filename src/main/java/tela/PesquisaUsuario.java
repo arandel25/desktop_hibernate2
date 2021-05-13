@@ -5,10 +5,11 @@
  */
 package tela;
 
-import dao.ChamadoDao;
-import dao.ChamadoDaoImpl;
 import dao.HibernateUtil;
+import dao.UsuarioDao;
+import dao.UsuarioDaoImpl;
 import entidade.Chamado;
+import entidade.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -19,16 +20,17 @@ import org.hibernate.Session;
 /**
  * @author Felipe
  */
-public class PesquisaChamado extends javax.swing.JFrame {
+public class PesquisaUsuario extends javax.swing.JFrame {
 
     private Session session;
-    private Chamado chamado;
-    private ChamadoDao chamadoDao;
-    List<Chamado> chamados;
+    private List<Usuario> usuarios;
+    private Usuario usuario;
+    private UsuarioDao usuarioDao;
+    
 
-    public PesquisaChamado() {
+    public PesquisaUsuario() {
         initComponents();
-        chamadoDao = new ChamadoDaoImpl();
+        usuarioDao = new UsuarioDaoImpl();
     }
 
     @SuppressWarnings("unchecked")
@@ -39,18 +41,18 @@ public class PesquisaChamado extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btPesquisar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        tfEquipamento = new javax.swing.JTextField();
+        tfNome = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaChamados = new javax.swing.JTable();
+        tabelaUsuarios = new javax.swing.JTable();
         btExcluir = new javax.swing.JButton();
         btAlterar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Pesquisa de Chamado");
+        setTitle("Pesquisa de Usuário");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Pesquisa de Chamado");
+        jLabel1.setText("Pesquisa de Usuário");
 
         btPesquisar.setText("Pesquisar");
         btPesquisar.setPreferredSize(new java.awt.Dimension(90, 25));
@@ -61,26 +63,31 @@ public class PesquisaChamado extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel2.setText("Equipamento:");
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel2.setText("Nome:");
 
-        tfEquipamento.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tfNome.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
-        tabelaChamados.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Equipamento", "Situação", "Abertura", "Descrição"
+                "Nome", "Login", "Situação", "Perfil", "Ultimo Acesso"
             }
         ));
-        jScrollPane1.setViewportView(tabelaChamados);
-        if (tabelaChamados.getColumnModel().getColumnCount() > 0) {
-            tabelaChamados.getColumnModel().getColumn(0).setMinWidth(140);
-            tabelaChamados.getColumnModel().getColumn(0).setMaxWidth(150);
-            tabelaChamados.getColumnModel().getColumn(1).setMinWidth(50);
-            tabelaChamados.getColumnModel().getColumn(1).setMaxWidth(70);
-            tabelaChamados.getColumnModel().getColumn(2).setMinWidth(50);
-            tabelaChamados.getColumnModel().getColumn(2).setMaxWidth(150);
+        jScrollPane1.setViewportView(tabelaUsuarios);
+        if (tabelaUsuarios.getColumnModel().getColumnCount() > 0) {
+            tabelaUsuarios.getColumnModel().getColumn(0).setMinWidth(100);
+            tabelaUsuarios.getColumnModel().getColumn(0).setMaxWidth(130);
+            tabelaUsuarios.getColumnModel().getColumn(1).setMinWidth(150);
+            tabelaUsuarios.getColumnModel().getColumn(1).setMaxWidth(180);
+            tabelaUsuarios.getColumnModel().getColumn(2).setMinWidth(50);
+            tabelaUsuarios.getColumnModel().getColumn(2).setMaxWidth(150);
+            tabelaUsuarios.getColumnModel().getColumn(3).setMinWidth(70);
+            tabelaUsuarios.getColumnModel().getColumn(3).setMaxWidth(150);
+            tabelaUsuarios.getColumnModel().getColumn(4).setMinWidth(100);
+            tabelaUsuarios.getColumnModel().getColumn(4).setMaxWidth(110);
         }
 
         btExcluir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -107,23 +114,24 @@ public class PesquisaChamado extends javax.swing.JFrame {
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(painelPrincipalLayout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(tfEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(btPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelPrincipalLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(painelPrincipalLayout.createSequentialGroup()
                 .addGap(141, 141, 141)
                 .addComponent(btExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(130, 130, 130)
                 .addComponent(btAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(painelPrincipalLayout.createSequentialGroup()
+                .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(painelPrincipalLayout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(btPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, painelPrincipalLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         painelPrincipalLayout.setVerticalGroup(
             painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,7 +141,7 @@ public class PesquisaChamado extends javax.swing.JFrame {
                 .addGap(42, 42, 42)
                 .addGroup(painelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(tfEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -163,35 +171,34 @@ public class PesquisaChamado extends javax.swing.JFrame {
         session = HibernateUtil.abrirConexao();
         try {
             if (validarCampo()) {
-                chamados = chamadoDao.pesquisarPorEquipamento(session, tfEquipamento.getText().trim());
+                usuarios = usuarioDao.pesquisarPorNome(tfNome.getText().trim(), session);
             } else {
-                chamados = chamadoDao.pesquisarChamadosAbertos(session);
-                System.out.println(chamados.get(0).getId());
+                usuarios = usuarioDao.listarTodo(session);
             }
         } catch (HibernateException e) {
             System.err.println(e.getMessage());
         } finally {
             session.close();
-            carregarTabela(chamados);
+            carregarTabela(usuarios);
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
 
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
-        int linha = tabelaChamados.getSelectedRow();
+        int linha = tabelaUsuarios.getSelectedRow();
         if (linha >= 0) {
             int opcao = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir");
             if (opcao == 0) {
                 try {
                     session = HibernateUtil.abrirConexao();
-                    chamadoDao.excluir(chamados.get(linha), session);
-                    chamados.remove(linha);
-                    JOptionPane.showMessageDialog(null, "Chamado excluido com sucesso!");
-                    tfEquipamento.setText("");
+                    usuarioDao.excluir(usuarios.get(linha), session);
+                    usuarios.remove(linha);
+                    JOptionPane.showMessageDialog(null, "Usuário excluído com sucesso!");
+                    tfNome.setText("");
                 } catch (HibernateException e) {
                     System.err.println(e.getMessage());
                 } finally {
                     session.close();
-                    carregarTabela(chamados);
+                    carregarTabela(usuarios);
                 }
             }
         } else {
@@ -200,36 +207,40 @@ public class PesquisaChamado extends javax.swing.JFrame {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarActionPerformed
-        int linha = tabelaChamados.getSelectedRow();
-        if (linha >= 0) {
-            new CadastroChamado(chamados.get(linha)).setVisible(true);
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada!");
-        }
-
+//        int linha = tabelaUsuarios.getSelectedRow();
+//        if (linha >= 0) {
+//            new CadastroChamado(chamados.get(linha)).setVisible(true);
+//            this.dispose();
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada!");
+//        }
     }//GEN-LAST:event_btAlterarActionPerformed
 
-    private void carregarTabela(List<Chamado> chamados) {
-        DefaultTableModel tabelaModelo = (DefaultTableModel) tabelaChamados.getModel();
+    private void carregarTabela(List<Usuario> usuarios) {
+        DefaultTableModel tabelaModelo = (DefaultTableModel) tabelaUsuarios.getModel();
         tabelaModelo.setNumRows(0);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
         String ativo;
-        if (chamados.isEmpty()) {
+        String ultimoAcesso;
+        if (usuarios.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nenhum resultado encontrado!");
         } else {
-            for (Chamado cham : chamados) {
-                ativo = cham.isAtivo() ? "Aberto" : "Encerrado";
-                tabelaModelo.addRow(new Object[]{cham.getEquipamento(),
-                    ativo, dateFormat.format(cham.getCadastro()), cham.getDescricao()});
+            for (Usuario usua : usuarios) {
+                ativo = usua.isAtivo() ? "Ativo" : "Inativo";
+                ultimoAcesso = "-";
+                if (usua.getUltimoAcesso() != null) {
+                    dateFormat.format(usua.getUltimoAcesso());
+                }
+                tabelaModelo.addRow(new Object[]{usua.getNome(), usua.getLogin(), 
+                    ativo, usua.getPerfil().getNome(), ultimoAcesso});
             }
         }
     }
 
     private boolean validarCampo() {
         boolean erro = true;
-        if (tfEquipamento.getText().trim().length() <= 1) {
-            JOptionPane.showMessageDialog(null, "Equipamento inválido");
+        if (tfNome.getText().trim().length() <= 2) {
+            JOptionPane.showMessageDialog(null, "Nome inválido!");
             erro = false;
         }
         return erro;
@@ -249,21 +260,23 @@ public class PesquisaChamado extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PesquisaChamado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PesquisaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PesquisaChamado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PesquisaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PesquisaChamado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PesquisaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PesquisaChamado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PesquisaUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PesquisaChamado().setVisible(true);
+                new PesquisaUsuario().setVisible(true);
             }
         });
     }
@@ -276,7 +289,7 @@ public class PesquisaChamado extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel painelPrincipal;
-    private javax.swing.JTable tabelaChamados;
-    private javax.swing.JTextField tfEquipamento;
+    private javax.swing.JTable tabelaUsuarios;
+    private javax.swing.JTextField tfNome;
     // End of variables declaration//GEN-END:variables
 }
