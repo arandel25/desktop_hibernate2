@@ -11,6 +11,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 /**
  * @author Felipe
@@ -33,5 +34,33 @@ public class UsuarioDaoImpl extends BaseDaoImpl<Usuario, Long> implements Usuari
         Query consulta = session.createQuery("from Usuario where nome like :nome");
         consulta.setParameter("nome", "%" + nome + "%");
         return consulta.list();
+    }
+
+    @Override
+    public Usuario login(String login, String senha, Session session) throws HibernateException {
+        Query consulta = session.createQuery("from Usuario where login = :login and senha = :senha");
+        consulta.setParameter("login", login);
+        consulta.setParameter("senha", senha);
+        return (Usuario) consulta.uniqueResult();
+    }
+
+    @Override
+    public void atualizarUltimoAcesso(Long id, Session session) throws HibernateException {
+        Transaction transacao = session.beginTransaction();
+        Query hql = session.createQuery("update Usuario set ultimoAcesso = current_date()"
+                + " where id = :id");
+        hql.setParameter("id", id);
+        hql.executeUpdate();
+        transacao.commit();
+    }
+
+    @Override
+    public void alterarStatus(Long id, boolean status, Session session) throws HibernateException {
+        Transaction transacao = session.beginTransaction();
+        Query hql = session.createQuery("update Usuario set ativo = :ativo where id = :id");
+        hql.setParameter("ativo", status);
+        hql.setParameter("id", id);
+        hql.executeUpdate();
+        transacao.commit();
     }
 }

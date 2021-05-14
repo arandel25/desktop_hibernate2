@@ -207,13 +207,13 @@ public class PesquisaUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btExcluirActionPerformed
 
     private void btAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAlterarActionPerformed
-//        int linha = tabelaUsuarios.getSelectedRow();
-//        if (linha >= 0) {
-//            new CadastroChamado(chamados.get(linha)).setVisible(true);
-//            this.dispose();
-//        } else {
-//            JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada!");
-//        }
+        int linha = tabelaUsuarios.getSelectedRow();
+        if (linha >= 0) {
+            new CadastroUsuario(usuarios.get(linha)).setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Nenhuma linha selecionada!");
+        }
     }//GEN-LAST:event_btAlterarActionPerformed
 
     private void carregarTabela(List<Usuario> usuarios) {

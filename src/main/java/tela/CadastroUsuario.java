@@ -12,7 +12,6 @@ import dao.UsuarioDao;
 import dao.UsuarioDaoImpl;
 import entidade.Perfil;
 import entidade.Usuario;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
@@ -28,11 +27,19 @@ public class CadastroUsuario extends javax.swing.JFrame {
     private List<Perfil> perfils;
     private Usuario usuario;
     private UsuarioDao usuarioDao;
-    
+
     public CadastroUsuario() {
         initComponents();
         carregarComboPerfil();
         usuarioDao = new UsuarioDaoImpl();
+    }
+
+    public CadastroUsuario(Usuario usuario) {
+        initComponents();
+        this.usuario = usuario;
+        carregarComboPerfil();
+        usuarioDao = new UsuarioDaoImpl();
+        telaAlterar();
     }
 
     @SuppressWarnings("unchecked")
@@ -161,40 +168,43 @@ public class CadastroUsuario extends javax.swing.JFrame {
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         if (validarCampo()) {
             carregarUsuario();
-            
             try {
                 session = HibernateUtil.abrirConexao();
                 usuarioDao.salvarOuAlterar(usuario, session);
-                JOptionPane.showMessageDialog(null, "Usuário salvo com sucesso");
+                JOptionPane.showMessageDialog(null, "Operação feita com sucesso");
                 limpar();
             } catch (HibernateException e) {
-                JOptionPane.showMessageDialog(null, "Erro ao salvar usuário!");
+                JOptionPane.showMessageDialog(null, "Operação não realizada!");
                 System.err.println(e.getMessage());
-            }finally{
+            } finally {
                 session.close();
             }
         }
     }//GEN-LAST:event_btSalvarActionPerformed
 
-    private void carregarUsuario(){
-        usuario = new Usuario();
+    private void carregarUsuario() {
+        if (usuario == null) {
+            usuario = new Usuario();
+            usuario.setSenha("12345");
+            usuario.setAtivo(true);
+        }
         usuario.setNome(tfNome.getText().trim());
         usuario.setLogin(tfLogin.getText().trim());
-        usuario.setSenha("12345");
-        usuario.setAtivo(true);
         usuario.setPerfil(perfils.get(jComboBox.getSelectedIndex() - 1));
     }
-    
+
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
         limpar();
+        telaSalvar();
     }//GEN-LAST:event_btLimparActionPerformed
-    
-    private void limpar(){
+
+    private void limpar() {
         tfLogin.setText("");
         tfNome.setText("");
         jComboBox.setSelectedIndex(0);
+        telaSalvar();
     }
-    
+
     private boolean validarCampo() {
         String mensagem = "";
         boolean erro = true;
@@ -216,24 +226,40 @@ public class CadastroUsuario extends javax.swing.JFrame {
         }
         return erro;
     }
-    
-    private  void carregarComboPerfil(){
+
+    private void carregarComboPerfil() {
         perfilDao = new PerfilDaoImpl();
         try {
             session = HibernateUtil.abrirConexao();
             perfils = perfilDao.pesquisarPerfil(session);
         } catch (HibernateException e) {
             System.err.println("Erro carregar comboBox perfil" + e.getMessage());
-        }finally{
+        } finally {
             session.close();
         }
         jComboBox.addItem("Selecione uma opção");
-        
+
         for (Perfil perfil : perfils) {
             jComboBox.addItem(perfil.getNome());
         }
     }
-    
+
+    private void telaSalvar() {
+        setTitle("Cadastro Usuário");
+        jLabelTitulo.setText("Cadastro de usuário");
+        btSalvar.setText("Salvar");
+        usuario = null;
+    }
+
+    private void telaAlterar() {
+        setTitle("Alterar Usuário");
+        jLabelTitulo.setText("Alterar Usuário");
+        btSalvar.setText("Alterar");
+        jComboBox.setSelectedItem(usuario.getPerfil().getNome());
+        tfLogin.setText(usuario.getLogin());
+        tfNome.setText(usuario.getNome());
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -285,4 +311,5 @@ public class CadastroUsuario extends javax.swing.JFrame {
     private javax.swing.JTextField tfLogin;
     private javax.swing.JTextField tfNome;
     // End of variables declaration//GEN-END:variables
+
 }

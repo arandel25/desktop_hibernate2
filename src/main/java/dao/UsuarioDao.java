@@ -16,4 +16,7 @@ import org.hibernate.Session;
 public interface UsuarioDao extends BaseDao<Usuario, Long>{
     List<Usuario> listarTodo(Session session) throws HibernateException;
     List<Usuario> pesquisarPorNome (String nome, Session session) throws HibernateException;
+    Usuario login(String login, String senha, Session session) throws HibernateException;
+    void atualizarUltimoAcesso(Long id, Session session) throws HibernateException;
+    void alterarStatus(Long id, boolean status, Session session) throws HibernateException;
 }

@@ -15,6 +15,9 @@ public class Principal extends javax.swing.JFrame {
 
     public Principal() {
         initComponents();
+        if (!UsuarioLogado.getPerfil().equals("Administrador")) {
+            
+        }
     }
 
     /**
@@ -36,7 +39,7 @@ public class Principal extends javax.swing.JFrame {
         novoChamado = new javax.swing.JMenuItem();
         pesquisaChamado = new javax.swing.JMenuItem();
         novoUsuario = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        pesquisaUsuario = new javax.swing.JMenuItem();
         relatorios = new javax.swing.JMenu();
         sair = new javax.swing.JMenu();
 
@@ -115,8 +118,13 @@ public class Principal extends javax.swing.JFrame {
         });
         cadastro.add(novoUsuario);
 
-        jMenuItem2.setText("Pesquisar Usuário");
-        cadastro.add(jMenuItem2);
+        pesquisaUsuario.setText("Pesquisar Usuário");
+        pesquisaUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pesquisaUsuarioActionPerformed(evt);
+            }
+        });
+        cadastro.add(pesquisaUsuario);
 
         jMenuBar1.add(cadastro);
 
@@ -185,6 +193,10 @@ public class Principal extends javax.swing.JFrame {
         new CadastroUsuario().setVisible(true);
     }//GEN-LAST:event_novoUsuarioActionPerformed
 
+    private void pesquisaUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisaUsuarioActionPerformed
+        new PesquisaUsuario().setVisible(true);
+    }//GEN-LAST:event_pesquisaUsuarioActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -225,10 +237,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu cadastro;
     private javax.swing.JMenuItem editar;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem novoChamado;
     private javax.swing.JMenuItem novoUsuario;
     private javax.swing.JMenuItem pesquisaChamado;
+    private javax.swing.JMenuItem pesquisaUsuario;
     private javax.swing.JMenu relatorios;
     private javax.swing.JMenu sair;
     // End of variables declaration//GEN-END:variables
