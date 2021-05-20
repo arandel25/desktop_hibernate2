@@ -16,6 +16,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import util.EnviarEmail;
+import util.UtilGerador;
 
 /**
  * @author Felipe
@@ -171,11 +173,17 @@ public class CadastroUsuario extends javax.swing.JFrame {
             try {
                 session = HibernateUtil.abrirConexao();
                 usuarioDao.salvarOuAlterar(usuario, session);
+                EnviarEmail enviarEmail = new EnviarEmail();
+                enviarEmail.criarEmailUsuarioNovo(usuario);
                 JOptionPane.showMessageDialog(null, "Operação feita com sucesso");
                 limpar();
             } catch (HibernateException e) {
-                JOptionPane.showMessageDialog(null, "Operação não realizada!");
-                System.err.println(e.getMessage());
+                if (e.getCause().toString().contains("usuario_email")) {
+                    JOptionPane.showMessageDialog(null, "E-mail já utilizado!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Operação não realizada!");
+                }
+                System.err.println("Causa" + e.getCause());
             } finally {
                 session.close();
             }
@@ -185,7 +193,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
     private void carregarUsuario() {
         if (usuario == null) {
             usuario = new Usuario();
-            usuario.setSenha("12345");
+            usuario.setSenha(UtilGerador.gerarCaracter(4));
             usuario.setAtivo(true);
         }
         usuario.setNome(tfNome.getText().trim());

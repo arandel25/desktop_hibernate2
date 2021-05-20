@@ -8,7 +8,6 @@ package tela;
 import dao.HibernateUtil;
 import dao.UsuarioDao;
 import dao.UsuarioDaoImpl;
-import entidade.Chamado;
 import entidade.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.List;
