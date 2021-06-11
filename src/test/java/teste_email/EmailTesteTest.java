@@ -19,7 +19,7 @@ public class EmailTesteTest {
     public EmailTesteTest() {
     }
 
-    @Test
+//    @Test
     public void testCriarEmailUsuarioNovo() {
         System.out.println("criarEmailUsuarioNovo");
         Usuario usuario = new Usuario();

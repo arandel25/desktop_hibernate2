@@ -29,7 +29,7 @@ public class UsuarioDaoImplTest {
         usuarioDao = new UsuarioDaoImpl();
     }
 
-    @Test
+//    @Test
     public void testSalvar() {
         System.out.println("Salvar");
         PerfilDao perfilDao = new PerfilDaoImpl();

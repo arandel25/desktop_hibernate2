@@ -30,6 +30,9 @@ public class Fornecedor implements Serializable {
     
     @Lob
     private String descricao;
+    
+    @OneToOne(mappedBy = "fornecedor", cascade = CascadeType.ALL)
+    private Endereco endereco;
 
     public Fornecedor() {
     }
@@ -71,6 +74,14 @@ public class Fornecedor implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
     
     @Override

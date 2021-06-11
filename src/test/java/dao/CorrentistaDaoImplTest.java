@@ -28,7 +28,7 @@ public class CorrentistaDaoImplTest {
         correntistaDao = new CorrentistaDaoImpl();
     }
 
-    @Test
+//    @Test
     public void testSalvar(){
         System.out.println("salvar");
         CartaoDaoImplTest cartaoTeste = new CartaoDaoImplTest();

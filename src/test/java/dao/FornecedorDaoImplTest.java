@@ -5,6 +5,7 @@
  */
 package dao;
 
+import entidade.Endereco;
 import entidade.Fornecedor;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.hibernate.Session;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import util.UtilGerador;
+import web_service.EnderecoWebService;
 
 /**
  * @author felipe.souza2
@@ -33,7 +35,14 @@ public class FornecedorDaoImplTest {
         fornecedor = new Fornecedor();
         fornecedor.setNome(UtilGerador.gerarNome());
         fornecedor.setCadastro(new Date());
-        fornecedor.setDescricao(UtilGerador.gerarCaracter(50));
+        
+        EnderecoWebService WebService = new EnderecoWebService();
+        String cep = "88132599";
+        Endereco endereco = WebService.pesquisaCep(cep);
+        fornecedor.setEndereco(endereco);
+        endereco.setFornecedor(fornecedor);
+        
+        fornecedor.setDescricao(UtilGerador.gerarCaracter(20));
         sessao = HibernateUtil.abrirConexao();
         fornecedorDao.salvarOuAlterar(fornecedor, sessao);
         sessao.close();

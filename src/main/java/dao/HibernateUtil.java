@@ -8,6 +8,7 @@ package dao;
 import entidade.Cartao;
 import entidade.Chamado;
 import entidade.Correntista;
+import entidade.Endereco;
 import entidade.Fornecedor;
 import entidade.Perfil;
 import entidade.Usuario;
@@ -36,6 +37,7 @@ public class HibernateUtil {
             cfg.addAnnotatedClass(Chamado.class);
             cfg.addAnnotatedClass(Perfil.class);
             cfg.addAnnotatedClass(Usuario.class);
+            cfg.addAnnotatedClass(Endereco.class);
             
             cfg.configure("/META-INF/hibernate.cfg.xml");
             StandardServiceRegistryBuilder build = new StandardServiceRegistryBuilder().
